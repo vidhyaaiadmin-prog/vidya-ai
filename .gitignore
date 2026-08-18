@@ -1,0 +1,28 @@
+# ── SECRETS — never commit these ──
+.env
+.env.local
+.env*.local
+*.pem
+*.key
+
+# Dependencies & builds
+node_modules/
+.next/
+out/
+build/
+
+# Sentry
+.env.sentry-build-plugin
+.sentryclirc
+
+# Build artifacts
+*.tsbuildinfo
+
+# Claude Code (local)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
