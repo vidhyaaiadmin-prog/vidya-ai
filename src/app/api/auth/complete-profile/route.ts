@@ -26,13 +26,17 @@ export async function POST(req: NextRequest) {
     const db = createAdminClient();
     if (!db) return json({ error: 'Backend not configured' }, 500);
 
-    // Verify the caller actually owns this authId
+    // Verify the caller actually owns this authId — mandatory, not optional
     const token = req.headers.get('authorization')?.replace('Bearer ', '');
-    if (token) {
-      const { data: { user: authUser } } = await db.auth.getUser(token);
-      if (authUser && authUser.id !== authId) {
-        return json({ error: 'Auth ID mismatch' }, 403);
-      }
+    if (!token) {
+      return json({ error: 'Authentication required' }, 401);
+    }
+    const { data: { user: authUser }, error: authError } = await db.auth.getUser(token);
+    if (authError || !authUser) {
+      return json({ error: 'Invalid or expired session' }, 401);
+    }
+    if (authUser.id !== authId) {
+      return json({ error: 'Auth ID mismatch' }, 403);
     }
 
     // Defense in depth: re-verify the email matches the institution's registered

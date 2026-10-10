@@ -208,26 +208,6 @@ export function extractJSON<T>(text: string): T | null {
   return null;
 }
 
-// ─── Streaming helper (Claude) ─────────────────────────────
-export async function* streamClaude(
-  messages: Array<{ role: 'user' | 'assistant'; content: string }>,
-  system: string,
-): AsyncGenerator<string> {
-  const client = getAnthropic();
-  const stream = client.messages.stream({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 1000,
-    system,
-    messages,
-  });
-
-  for await (const event of stream) {
-    if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-      yield event.delta.text;
-    }
-  }
-}
-
 // ─── WhatsApp helper ───────────────────────────────────────
 export async function sendWhatsApp(to: string, body: string): Promise<boolean> {
   const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID;
