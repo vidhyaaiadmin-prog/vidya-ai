@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
+import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="font-sans bg-navy antialiased">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <ServiceWorkerRegister />
         <Toaster
           position="top-center"

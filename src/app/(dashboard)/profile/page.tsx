@@ -51,10 +51,11 @@ export default function ProfilePage() {
   if ((progress?.total_flashcards_reviewed ?? 0) >= 50) earned.add('cards_50');
 
   const logout = async () => {
-    await createClient()?.auth.signOut();
+    try { await createClient()?.auth.signOut(); } catch {}
     clearUser();
     setOnboardingDone(false);
-    window.location.href = '/';
+    try { localStorage.removeItem('vidya-user'); localStorage.removeItem('vidya-ui'); } catch {}
+    window.location.href = '/login';
   };
 
   if (!user) return null;

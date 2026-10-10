@@ -2,24 +2,28 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserStore, useUIStore } from '@/lib/stores';
+import { createClient, supabaseReady } from '@/lib/supabase';
 import { Zap } from 'lucide-react';
 
 export default function RootPage() {
   const router = useRouter();
-  const { user } = useUserStore();
-  const { onboardingDone } = useUIStore();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (user && onboardingDone) {
+    const timer = setTimeout(async () => {
+      if (!supabaseReady) {
+        router.replace('/onboarding');
+        return;
+      }
+      const db = createClient();
+      const { data: { user: authUser } } = await db!.auth.getUser();
+      if (authUser) {
         router.replace('/home');
       } else {
-        router.replace('/onboarding');
+        router.replace('/login');
       }
     }, 600);
     return () => clearTimeout(timer);
-  }, [user, onboardingDone, router]);
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-navy flex items-center justify-center">
