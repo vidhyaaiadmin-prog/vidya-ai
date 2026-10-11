@@ -13,7 +13,7 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabaseReady = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 
-const PROTECTED_PATHS = ['/home', '/doubt', '/quiz', '/flashcards', '/planner', '/career', '/interview', '/pyq', '/analytics', '/profile', '/leaderboard', '/resources', '/plagiarism', '/admin'];
+const PROTECTED_PATHS = ['/home', '/doubt', '/quiz', '/flashcards', '/planner', '/career', '/interview', '/pyq', '/analytics', '/profile', '/leaderboard', '/resources', '/plagiarism', '/certifications', '/admin'];
 const AUTH_PATHS = ['/login', '/onboarding'];
 
 function matches(pathname: string, paths: string[]) {
