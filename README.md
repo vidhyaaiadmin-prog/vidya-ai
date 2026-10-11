@@ -209,3 +209,5 @@ When you're ready to connect APIs, fill in `.env.local` and the app will automat
 All AI features are already wired — they just need the keys.
 
 **Built with:** Next.js 14 · Supabase · Gemini API · Claude API · Zustand · Framer Motion · Recharts · Tailwind CSS
+
+
