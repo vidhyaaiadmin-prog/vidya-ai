@@ -7,6 +7,7 @@ import { Button, Card, Badge, SectionHeader, ProgressBar, Modal } from '@/compon
 import { useUserStore } from '@/lib/stores';
 import { xpProgress, formatXP, LANG_NAMES, cn } from '@/lib/utils';
 import { performLogout } from '@/lib/logout';
+import { createClient } from '@/lib/supabase';
 import type { Language } from '@/types';
 import toast from 'react-hot-toast';
 
