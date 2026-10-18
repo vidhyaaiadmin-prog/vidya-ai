@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { cn, xpProgress, formatXP } from '@/lib/utils';
 import { useUserStore, useUIStore } from '@/lib/stores';
-import { createClient } from '@/lib/supabase';
+import { performLogout } from '@/lib/logout';
 import { useTranslation } from '@/lib/i18n';
 import { ProgressBar } from '@/components/ui';
 
@@ -130,13 +130,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
         {/* Footer */}
         <div className="p-3 border-t border-card-border space-y-1">
           <button
-            onClick={async () => {
-              try { await createClient()?.auth.signOut(); } catch {}
-              useUserStore.getState().clearUser();
-              useUIStore.getState().setOnboardingDone(false);
-              try { localStorage.removeItem('vidya-user'); localStorage.removeItem('vidya-ui'); } catch {}
-              window.location.href = '/login';
-            }}
+            onClick={() => { performLogout(); }}
             className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-text-tertiary hover:text-danger hover:bg-danger/5 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />

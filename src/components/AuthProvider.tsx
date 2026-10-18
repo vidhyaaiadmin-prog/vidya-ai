@@ -1,13 +1,10 @@
 'use client';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient, supabaseReady } from '@/lib/supabase';
 import { useUserStore, useUIStore } from '@/lib/stores';
 import type { User } from '@/types';
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-
   useEffect(() => {
     if (!supabaseReady) return;
     const db = createClient();
@@ -58,7 +55,10 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         useUserStore.getState().clearUser();
         useUIStore.getState().setOnboardingDone(false);
         try { localStorage.removeItem('vidya-user'); localStorage.removeItem('vidya-ui'); } catch {}
-        router.replace('/login');
+        const path = window.location.pathname;
+        if (path !== '/login' && path !== '/onboarding') {
+          window.location.href = '/login';
+        }
       }
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         syncSession();
@@ -66,7 +66,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     });
 
     return () => { subscription.unsubscribe(); };
-  }, [router]);
+  }, []);
 
   return <>{children}</>;
 }

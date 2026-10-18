@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Building2, Download, FileText, LogOut, Plus, Users, TrendingUp } from 'lucide-react';
 import { Button, Card, Badge, Input, Textarea } from '@/components/ui';
-import { useUserStore, useUIStore } from '@/lib/stores';
-import { createClient } from '@/lib/supabase';
+import { useUserStore } from '@/lib/stores';
+import { performLogout } from '@/lib/logout';
 import { authFetch } from '@/lib/api-client';
 import toast from 'react-hot-toast';
 
@@ -48,8 +48,7 @@ function download(filename: string, content: string, type: string) {
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user, clearUser } = useUserStore();
-  const { setOnboardingDone } = useUIStore();
+  const { user } = useUserStore();
   const [overview, setOverview] = useState<any>(null);
   const [entries, setEntries] = useState<any[]>([]);
   const [criterion, setCriterion] = useState('');
@@ -91,11 +90,7 @@ export default function AdminPage() {
     toast.success('Evidence logged.');
   };
 
-  const logout = async () => {
-    await createClient()?.auth.signOut();
-    clearUser(); setOnboardingDone(false);
-    router.push('/login');
-  };
+  const logout = () => { performLogout(); };
 
   if (loading) return <div className="min-h-screen bg-navy flex items-center justify-center text-text-tertiary text-sm">Loading admin console…</div>;
 

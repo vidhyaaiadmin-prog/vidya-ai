@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Zap, Flame, Trophy, BookOpen, Brain, LogOut, Settings, ChevronRight, Check } from 'lucide-react';
 import { Button, Card, Badge, SectionHeader, ProgressBar, Modal } from '@/components/ui';
-import { useUserStore, useUIStore } from '@/lib/stores';
+import { useUserStore } from '@/lib/stores';
 import { xpProgress, formatXP, LANG_NAMES, cn } from '@/lib/utils';
-import { createClient } from '@/lib/supabase';
+import { performLogout } from '@/lib/logout';
 import type { Language } from '@/types';
 import toast from 'react-hot-toast';
 
@@ -24,8 +24,7 @@ const ACHIEVEMENTS = [
 ];
 
 export default function ProfilePage() {
-  const { user, progress, clearUser, setUser } = useUserStore();
-  const { setOnboardingDone } = useUIStore();
+  const { user, progress, setUser } = useUserStore();
   const [logoutConfirm, setLogoutConfirm] = useState(false);
   const [langPickerOpen, setLangPickerOpen] = useState(false);
 
@@ -50,13 +49,7 @@ export default function ProfilePage() {
   if ((progress?.xp ?? 0) >= 500) earned.add('xp_500');
   if ((progress?.total_flashcards_reviewed ?? 0) >= 50) earned.add('cards_50');
 
-  const logout = async () => {
-    try { await createClient()?.auth.signOut(); } catch {}
-    clearUser();
-    setOnboardingDone(false);
-    try { localStorage.removeItem('vidya-user'); localStorage.removeItem('vidya-ui'); } catch {}
-    window.location.href = '/login';
-  };
+  const logout = () => { performLogout(); };
 
   if (!user) return null;
 
