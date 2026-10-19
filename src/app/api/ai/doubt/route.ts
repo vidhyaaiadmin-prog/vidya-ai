@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { guard, json, safeError } from '@/lib/security';
-import { callClaude } from '@/lib/ai';
+import { callGeminiChat } from '@/lib/ai';
 import { languageInstruction } from '@/lib/utils';
 
 const SYSTEM = (major: string, language?: string) => `You are a Socratic tutor for ${major} students in India.
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const { messages, major = 'Engineering', language, sessionId } = g.data as any;
-    const reply = await callClaude(messages, SYSTEM(major, language), g.userId ?? 'anonymous', 'doubt', 900);
+    const reply = await callGeminiChat(messages, SYSTEM(major, language), g.userId ?? 'anonymous', 'doubt');
     return json({ reply, session_id: sessionId || crypto.randomUUID() });
   } catch (err) {
     return safeError(err);

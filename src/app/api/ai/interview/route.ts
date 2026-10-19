@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { guard, json, safeError } from '@/lib/security';
-import { callClaude } from '@/lib/ai';
+import { callGeminiChat } from '@/lib/ai';
 import { languageInstruction } from '@/lib/utils';
 
 const SYSTEM = (role: string, major: string, language?: string) =>
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const { messages, role, major = 'Engineering', language, turnCount = 0 } = g.data as any;
-    const reply = await callClaude(messages, SYSTEM(role, major, language), g.userId ?? 'anonymous', 'interview', 700);
+    const reply = await callGeminiChat(messages, SYSTEM(role, major, language), g.userId ?? 'anonymous', 'interview');
     return json({ reply, is_final: turnCount >= 6 });
   } catch (err) { return safeError(err); }
 }

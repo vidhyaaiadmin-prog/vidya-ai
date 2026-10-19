@@ -117,6 +117,41 @@ export async function callGeminiFlash(
   return text;
 }
 
+// ─── Gemini Chat (multi-turn conversations) ──────────────
+export async function callGeminiChat(
+  messages: Array<{ role: 'user' | 'assistant'; content: string }>,
+  systemInstruction: string,
+  userId: string,
+  feature: string,
+): Promise<string> {
+  await checkTokenCap(userId);
+
+  const model = getGemini().getGenerativeModel({
+    model: 'gemini-flash-lite-latest',
+    systemInstruction,
+    safetySettings: [
+      { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+    ],
+  });
+
+  const history = messages.slice(0, -1).map(m => ({
+    role: m.role === 'assistant' ? 'model' as const : 'user' as const,
+    parts: [{ text: m.content }],
+  }));
+
+  const lastMessage = messages[messages.length - 1];
+  const chat = model.startChat({ history });
+  const result = await chat.sendMessage(lastMessage.content);
+  const text = result.response.text();
+
+  const inTokens = messages.reduce((sum, m) => sum + Math.ceil(m.content.length / 4), 0);
+  const outTokens = Math.ceil(text.length / 4);
+  await logUsage(userId, feature, 'gemini-flash', inTokens, outTokens);
+
+  return text;
+}
+
 // ─── Gemini Pro (complex tasks - batch when possible) ─────
 export async function callGeminiPro(
   prompt: string,
