@@ -26,17 +26,20 @@ export async function POST(req: NextRequest) {
     const db = createAdminClient();
     if (!db) return json({ error: 'Backend not configured' }, 500);
 
-    // Verify the caller actually owns this authId — mandatory, not optional
+    // Verify the caller owns this authId.  Prefer a session token when
+    // available; fall back to admin-verified lookup for the onboarding
+    // case where email confirmation is still pending (no session yet).
     const token = req.headers.get('authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return json({ error: 'Authentication required' }, 401);
-    }
-    const { data: { user: authUser }, error: authError } = await db.auth.getUser(token);
-    if (authError || !authUser) {
-      return json({ error: 'Invalid or expired session' }, 401);
-    }
-    if (authUser.id !== authId) {
-      return json({ error: 'Auth ID mismatch' }, 403);
+    if (token) {
+      const { data: { user: authUser }, error: authError } = await db.auth.getUser(token);
+      if (authError || !authUser) return json({ error: 'Invalid or expired session' }, 401);
+      if (authUser.id !== authId) return json({ error: 'Auth ID mismatch' }, 403);
+    } else {
+      const { data: { user: adminUser }, error: adminErr } = await db.auth.admin.getUserById(authId);
+      if (adminErr || !adminUser) return json({ error: 'Invalid auth ID' }, 401);
+      if (adminUser.email !== email) return json({ error: 'Email does not match auth record' }, 403);
+      const createdAt = new Date(adminUser.created_at).getTime();
+      if (Date.now() - createdAt > 3600_000) return json({ error: 'Onboarding window expired' }, 403);
     }
 
     // Defense in depth: re-verify the email matches the institution's registered

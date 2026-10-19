@@ -168,19 +168,23 @@ export default function OnboardingPage() {
       }
 
       const db = createClient();
+      let token: string | undefined;
       const { data: { session } } = await db!.auth.getSession();
-      const token = session?.access_token;
+      token = session?.access_token;
+
       if (!token) {
-        toast.error('Session expired. Please go back and sign in again.');
-        return;
+        const { data: signIn } = await db!.auth.signInWithPassword({
+          email: email.trim(), password,
+        });
+        token = signIn?.session?.access_token;
       }
+
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
 
       const res = await fetch('/api/auth/complete-profile', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify({
           authId, institutionId, email: email.trim(),
           name: name.trim(), major, goal, language,
