@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Zap, Mail, Lock } from 'lucide-react';
 import { Button, Input } from '@/components/ui';
@@ -9,13 +9,25 @@ import { useUserStore, useUIStore } from '@/lib/stores';
 import type { User } from '@/types';
 import toast from 'react-hot-toast';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const params = useSearchParams();
   const { setUser, fetchProgress } = useUserStore();
   const { setOnboardingDone } = useUIStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (params.get('verified') === '1') {
+      toast.success('Email verified! You can now sign in.');
+      router.replace('/login');
+    } else if (params.get('error')) {
+      const err = params.get('error');
+      toast.error(err === 'missing_code' ? 'Invalid verification link.' : 'Email verification failed. Please try again.');
+      router.replace('/login');
+    }
+  }, [params, router]);
 
   const login = async () => {
     if (!email.trim() || !password) return;
@@ -104,7 +116,19 @@ export default function LoginPage() {
         <p className="text-center text-sm text-text-tertiary">
           New here? <Link href="/onboarding" className="text-orange font-semibold">Get started</Link>
         </p>
+
+        <p className="text-center text-xs text-text-tertiary/60">
+          <Link href="/privacy" className="hover:text-text-tertiary transition">Privacy Policy</Link>
+        </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

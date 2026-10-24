@@ -110,7 +110,11 @@ export default function OnboardingPage() {
       }
 
       const db = createClient()!;
-      const { data, error } = await db.auth.signUp({ email: email.trim(), password });
+      const { data, error } = await db.auth.signUp({
+        email: email.trim(),
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      });
       if (error || !data.user) {
         toast.error(error?.message || 'Could not create account.');
         return;
