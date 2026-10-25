@@ -1,7 +1,10 @@
 // Vidya AI service worker — runtime caching for offline/low-signal use.
 // Deliberately hand-rolled instead of precaching Next.js's hashed build
 // output: no build-time manifest step needed, works with plain `next build`.
-const CACHE = 'vidya-ai-v1';
+// Bumped from v1 → v2 to invalidate stale JS cached from the pre-Gemini
+// deployment, which still called the Claude backend and silently failed
+// when the Claude key wasn't configured.
+const CACHE = 'vidya-ai-v2';
 const OFFLINE_URL = '/offline';
 
 self.addEventListener('install', (event) => {
@@ -42,17 +45,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets (JS/CSS/fonts/images): cache-first, refresh in the background.
+  // Static assets (JS/CSS/fonts/images): network-first so deployments ship
+  // immediately, cache only as offline fallback. Previously cache-first,
+  // which pinned users to stale bundles across deployments.
   event.respondWith(
-    caches.match(request).then((cached) => {
-      const fetchPromise = fetch(request)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(request, copy));
-          return res;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
+    fetch(request)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((cache) => cache.put(request, copy));
+        return res;
+      })
+      .catch(() => caches.match(request))
   );
 });
