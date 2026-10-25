@@ -13,8 +13,8 @@ import toast from 'react-hot-toast';
 const HOURS_OPTIONS = ['2', '3', '4', '5', '6', '8'];
 
 const PRESET_EXAMS = [
-  { name: 'GATE 2026', date: '2026-02-01', subjects: 'Engineering Mathematics, General Aptitude, Core Subject (CSE/ECE/ME/CE)' },
-  { name: 'CAT 2025', date: '2025-11-24', subjects: 'Quantitative Aptitude, Verbal Ability & Reading Comprehension, Data Interpretation & Logical Reasoning' },
+  { name: 'GATE 2027', date: '2027-02-07', subjects: 'Engineering Mathematics, General Aptitude, Core Subject (CSE/ECE/ME/CE)' },
+  { name: 'CAT 2026', date: '2026-11-29', subjects: 'Quantitative Aptitude, Verbal Ability & Reading Comprehension, Data Interpretation & Logical Reasoning' },
   { name: 'University Semester Exam', date: '', subjects: '' },
 ];
 
@@ -74,7 +74,8 @@ export default function PlannerPage() {
           });
         }
       } else {
-        toast.error('Could not generate plan. Try again.');
+        // Surface the real reason (e.g. "Invalid exam date") instead of a generic retry.
+        toast.error(data.error || 'Could not generate plan. Try again.');
       }
     } catch {
       toast.error('Network error. Please retry.');
