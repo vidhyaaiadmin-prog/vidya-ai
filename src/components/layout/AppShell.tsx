@@ -71,7 +71,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
               Vidya<span className="text-orange">AI</span>
             </span>
           </div>
-          <button onClick={onClose} className="lg:hidden text-text-tertiary hover:text-text-primary p-1 rounded-lg hover:bg-white/5">
+          <button onClick={onClose} className="lg:hidden text-text-tertiary hover:text-text-primary p-1 rounded-lg hover:bg-navy-3">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -160,7 +160,7 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-white/5 transition-all"
+          className="lg:hidden p-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-navy-3 transition-all"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -187,7 +187,7 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
           </div>
         )}
         {/* Notifications */}
-        <button className="p-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-white/5 transition-all relative">
+        <button className="p-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-navy-3 transition-all relative">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-orange" />
         </button>

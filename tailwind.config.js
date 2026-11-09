@@ -1,23 +1,36 @@
 /** @type {import('tailwindcss').Config} */
+// Light theme — "Clean Minimal". Token names preserved from the dark-theme
+// build so existing JSX class usage (bg-navy, text-orange, shadow-orange-glow,
+// bg-gradient-brand, …) keeps working; only the VALUES behind each token
+// change. See globals.css for the mirrored CSS custom-property set.
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Brand
-        navy:    { DEFAULT: '#050816', 50: '#0A1030', 100: '#080D25', 200: '#060A1C', 300: '#050816', 2: '#080D25' },
-        card:    { DEFAULT: '#0F1228', light: '#151830', border: 'rgba(255,255,255,0.07)' },
-        orange:  { DEFAULT: '#FF6B2B', light: '#FF8A50', dim: 'rgba(255,107,43,0.12)', glow: 'rgba(255,107,43,0.25)' },
-        violet:  { DEFAULT: '#7C3AED', light: '#9B5FF7', dim: 'rgba(124,58,237,0.12)' },
-        teal:    { DEFAULT: '#00D9C0', dim: 'rgba(0,217,192,0.10)' },
-        mint:    { DEFAULT: '#10B981', dim: 'rgba(16,185,129,0.10)' },
+        // Page / surface backgrounds (was navy family)
+        navy:    { DEFAULT: '#FFFFFF', 50: '#F3F4F6', 100: '#F9FAFB', 200: '#FDFDFE', 300: '#FFFFFF', 2: '#F9FAFB' },
+        card:    { DEFAULT: '#FFFFFF', light: '#F9FAFB', border: 'rgba(10,37,64,0.08)' },
+
+        // Brand primary — was orange, now Stripe-indigo
+        orange:  { DEFAULT: '#635BFF', light: '#8780FF', dim: 'rgba(99,91,255,0.10)', glow: 'rgba(99,91,255,0.20)' },
+
+        // Secondary — was violet, now sky blue
+        violet:  { DEFAULT: '#0EA5E9', light: '#38BDF8', dim: 'rgba(14,165,233,0.10)' },
+
+        // Accent — was teal, now emerald
+        teal:    { DEFAULT: '#10B981', dim: 'rgba(16,185,129,0.10)' },
+
+        // Status colors
+        mint:    { DEFAULT: '#22C55E', dim: 'rgba(34,197,94,0.10)' },
         danger:  { DEFAULT: '#EF4444', dim: 'rgba(239,68,68,0.10)' },
         amber:   { DEFAULT: '#F59E0B', dim: 'rgba(245,158,11,0.10)' },
-        // Text
-        'text-primary':   'rgba(255,255,255,0.92)',
-        'text-secondary': 'rgba(255,255,255,0.55)',
-        'text-tertiary':  'rgba(255,255,255,0.30)',
+
+        // Text — dark on light
+        'text-primary':   '#0A2540',
+        'text-secondary': '#425466',
+        'text-tertiary':  '#697386',
       },
       fontFamily: {
         sans:    ['Inter', 'system-ui', 'sans-serif'],
@@ -25,22 +38,22 @@ module.exports = {
         mono:    ['Space Mono', 'monospace'],
       },
       backgroundImage: {
-        'gradient-brand':   'linear-gradient(135deg, #FF6B2B, #7C3AED)',
-        'gradient-dark':    'linear-gradient(160deg, #080D25 0%, #050816 100%)',
-        'gradient-card':    'linear-gradient(160deg, #0F1228 0%, #0A0D20 100%)',
-        'gradient-orange':  'linear-gradient(135deg, #FF6B2B, #FF8A50)',
-        'gradient-violet':  'linear-gradient(135deg, #7C3AED, #9B5FF7)',
-        'gradient-teal':    'linear-gradient(135deg, #00D9C0, #00B8A3)',
-        'dot-pattern':      'radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)',
+        'gradient-brand':   'linear-gradient(135deg, #635BFF, #0EA5E9)',
+        'gradient-dark':    'linear-gradient(160deg, #F9FAFB 0%, #FFFFFF 100%)',
+        'gradient-card':    'linear-gradient(160deg, #FFFFFF 0%, #F9FAFB 100%)',
+        'gradient-orange':  'linear-gradient(135deg, #635BFF, #8780FF)',
+        'gradient-violet':  'linear-gradient(135deg, #0EA5E9, #38BDF8)',
+        'gradient-teal':    'linear-gradient(135deg, #10B981, #22C55E)',
+        'dot-pattern':      'radial-gradient(circle, rgba(10,37,64,0.08) 1px, transparent 1px)',
       },
       backgroundSize: {
         'dot': '28px 28px',
       },
       boxShadow: {
-        'orange-glow':  '0 0 30px rgba(255,107,43,0.25), 0 0 60px rgba(255,107,43,0.10)',
-        'violet-glow':  '0 0 30px rgba(124,58,237,0.25), 0 0 60px rgba(124,58,237,0.10)',
-        'teal-glow':    '0 0 30px rgba(0,217,192,0.20)',
-        'card-glow':    '0 4px 24px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.05)',
+        'orange-glow':  '0 0 30px rgba(99,91,255,0.20), 0 0 60px rgba(99,91,255,0.08)',
+        'violet-glow':  '0 0 30px rgba(14,165,233,0.20), 0 0 60px rgba(14,165,233,0.08)',
+        'teal-glow':    '0 0 30px rgba(16,185,129,0.18)',
+        'card-glow':    '0 1px 2px rgba(10,37,64,0.04), 0 4px 16px rgba(10,37,64,0.06)',
         'inner-top':    'inset 0 1px 0 rgba(255,255,255,0.08)',
       },
       animation: {

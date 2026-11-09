@@ -13,14 +13,14 @@ import toast from 'react-hot-toast';
 interface Message { role: 'user' | 'assistant'; content: string; }
 
 const ROLES = [
-  { id: 'sde', label: 'Software Engineer (SDE-1)', icon: '💻', color: '#7C3AED', domain: 'Technical' },
-  { id: 'data', label: 'Data Analyst', icon: '📊', color: '#00D9C0', domain: 'Analytical' },
-  { id: 'pm', label: 'Product Manager', icon: '🎯', color: '#FF6B2B', domain: 'Strategy' },
-  { id: 'finance', label: 'Finance Analyst', icon: '📈', color: '#10B981', domain: 'Finance' },
+  { id: 'sde', label: 'Software Engineer (SDE-1)', icon: '💻', color: '#0EA5E9', domain: 'Technical' },
+  { id: 'data', label: 'Data Analyst', icon: '📊', color: '#10B981', domain: 'Analytical' },
+  { id: 'pm', label: 'Product Manager', icon: '🎯', color: '#635BFF', domain: 'Strategy' },
+  { id: 'finance', label: 'Finance Analyst', icon: '📈', color: '#22C55E', domain: 'Finance' },
   { id: 'marketing', label: 'Marketing Executive', icon: '📣', color: '#F59E0B', domain: 'Marketing' },
-  { id: 'consult', label: 'Management Consultant', icon: '🏢', color: '#60A5FA', domain: 'Consulting' },
+  { id: 'consult', label: 'Management Consultant', icon: '🏢', color: '#38BDF8', domain: 'Consulting' },
   { id: 'bizdev', label: 'Business Development', icon: '🤝', color: '#EF4444', domain: 'Sales' },
-  { id: 'hr', label: 'HR Manager', icon: '👥', color: '#C084FC', domain: 'People' },
+  { id: 'hr', label: 'HR Manager', icon: '👥', color: '#8780FF', domain: 'People' },
 ];
 
 const TOTAL_QUESTIONS = 6;

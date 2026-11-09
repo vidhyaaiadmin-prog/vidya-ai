@@ -225,9 +225,9 @@ export default function OnboardingPage() {
       <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, #FF6B2B, transparent)', filter: 'blur(80px)' }} />
+          style={{ background: 'radial-gradient(circle, #635BFF, transparent)', filter: 'blur(80px)' }} />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-8"
-          style={{ background: 'radial-gradient(circle, #7C3AED, transparent)', filter: 'blur(80px)' }} />
+          style={{ background: 'radial-gradient(circle, #0EA5E9, transparent)', filter: 'blur(80px)' }} />
       </div>
 
       <div className="relative z-10 w-full max-w-md">

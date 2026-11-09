@@ -6,30 +6,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 /* ─── CSS Custom Properties ───────────────────────────────── */
+/*
+ * Light theme — "Clean Minimal" (Stripe-inspired premium SaaS).
+ * Token NAMES are kept from the old dark theme (--navy, --card, --orange,
+ * --violet, --teal) so JSX class usage (bg-navy, text-orange, etc.) does
+ * not need rewriting. Only the VALUES behind the tokens change.
+ *   --navy  → white page background family
+ *   --card  → subtle gray card surfaces
+ *   --orange → indigo brand primary (#635BFF)
+ *   --violet → sky blue secondary (#0EA5E9)
+ *   --teal  → emerald accent (#10B981)
+ */
 :root {
-  /* Colors */
-  --navy:          #050816;
-  --navy-2:        #080D25;
-  --navy-3:        #0A1030;
-  --card:          #0F1228;
-  --card-light:    #151830;
-  --card-border:   rgba(255, 255, 255, 0.07);
-  --card-border-h: rgba(255, 255, 255, 0.14);
+  /* Page / surface backgrounds (old "navy" tokens, now white family) */
+  --navy:          #FFFFFF;
+  --navy-2:        #F9FAFB;
+  --navy-3:        #F3F4F6;
+  --card:          #FFFFFF;
+  --card-light:    #F9FAFB;
+  --card-border:   rgba(10, 37, 64, 0.08);
+  --card-border-h: rgba(10, 37, 64, 0.16);
 
-  --orange:        #FF6B2B;
-  --orange-light:  #FF8A50;
-  --orange-dim:    rgba(255, 107, 43, 0.12);
-  --orange-glow:   rgba(255, 107, 43, 0.25);
+  /* Brand primary — was orange, now Stripe-indigo */
+  --orange:        #635BFF;
+  --orange-light:  #8780FF;
+  --orange-dim:    rgba(99, 91, 255, 0.10);
+  --orange-glow:   rgba(99, 91, 255, 0.20);
 
-  --violet:        #7C3AED;
-  --violet-light:  #9B5FF7;
-  --violet-dim:    rgba(124, 58, 237, 0.12);
+  /* Secondary — was violet, now sky blue */
+  --violet:        #0EA5E9;
+  --violet-light:  #38BDF8;
+  --violet-dim:    rgba(14, 165, 233, 0.10);
 
-  --teal:          #00D9C0;
-  --teal-dim:      rgba(0, 217, 192, 0.10);
+  /* Accent — was teal, now emerald */
+  --teal:          #10B981;
+  --teal-dim:      rgba(16, 185, 129, 0.10);
 
-  --mint:          #10B981;
-  --mint-dim:      rgba(16, 185, 129, 0.10);
+  /* Status colors */
+  --mint:          #22C55E;
+  --mint-dim:      rgba(34, 197, 94, 0.10);
 
   --danger:        #EF4444;
   --danger-dim:    rgba(239, 68, 68, 0.10);
@@ -37,10 +52,10 @@
   --amber:         #F59E0B;
   --amber-dim:     rgba(245, 158, 11, 0.10);
 
-  /* Text */
-  --text-1:   rgba(255, 255, 255, 0.92);
-  --text-2:   rgba(255, 255, 255, 0.55);
-  --text-3:   rgba(255, 255, 255, 0.30);
+  /* Text — dark on light */
+  --text-1:   #0A2540;
+  --text-2:   #425466;
+  --text-3:   #697386;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -59,11 +74,11 @@
   --r-2xl: 24px;
   --r-full: 9999px;
 
-  /* Shadows */
-  --shadow-card:   0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.05);
-  --shadow-orange: 0 0 30px rgba(255,107,43,0.25), 0 0 60px rgba(255,107,43,0.10);
-  --shadow-violet: 0 0 30px rgba(124,58,237,0.25);
-  --shadow-teal:   0 0 30px rgba(0,217,192,0.20);
+  /* Shadows — soft gray, not black, for light surfaces */
+  --shadow-card:   0 1px 2px rgba(10,37,64,0.04), 0 4px 16px rgba(10,37,64,0.06);
+  --shadow-orange: 0 0 30px rgba(99,91,255,0.20), 0 0 60px rgba(99,91,255,0.08);
+  --shadow-violet: 0 0 30px rgba(14,165,233,0.20);
+  --shadow-teal:   0 0 30px rgba(16,185,129,0.18);
 }
 
 /* ─── Base Styles ─────────────────────────────────────────── */
@@ -92,8 +107,8 @@ h1, h2, h3, h4, h5, h6 {
 /* ─── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(10,37,64,0.14); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(10,37,64,0.26); }
 
 /* ─── Selection ───────────────────────────────────────────── */
 ::selection {
@@ -118,28 +133,33 @@ input::placeholder, textarea::placeholder {
   color: var(--text-3);
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.4);
-  cursor: pointer;
-}
+/* Date-picker arrow: no filter in light mode (was invert(0.4) for dark bg) */
+input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; }
 
 /* ─── Utility Classes ─────────────────────────────────────── */
 @layer utilities {
-  /* Text */
+  /* Text — brand gradient uses indigo → sky (was orange → orange-light / orange → violet) */
   .text-gradient-orange {
-    background: linear-gradient(135deg, #FF6B2B, #FF8A50);
+    background: linear-gradient(135deg, #635BFF, #8780FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .text-gradient-brand {
-    background: linear-gradient(135deg, #FF6B2B, #7C3AED);
+    background: linear-gradient(135deg, #635BFF, #0EA5E9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .text-gradient-teal {
-    background: linear-gradient(135deg, #00D9C0, #10B981);
+    background: linear-gradient(135deg, #10B981, #22C55E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Kept name text-gradient-violet for any legacy call sites */
+  .text-gradient-violet {
+    background: linear-gradient(135deg, #0EA5E9, #38BDF8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -147,12 +167,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   /* Backgrounds */
   .bg-glass {
-    background: rgba(15, 18, 40, 0.7);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
   .bg-dot-pattern {
-    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(10,37,64,0.08) 1px, transparent 1px);
     background-size: 28px 28px;
   }
   .bg-card-gradient {
@@ -189,7 +209,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @layer components {
   /* Glass Card */
   .glass-card {
-    @apply bg-glass border border-white/[0.07] rounded-xl shadow-[var(--shadow-card)];
+    @apply bg-glass rounded-xl shadow-[var(--shadow-card)];
+    border: 1px solid var(--card-border);
   }
 
   /* Gradient Border */
@@ -204,7 +225,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255,107,43,0.5), rgba(124,58,237,0.5));
+    background: linear-gradient(135deg, rgba(99,91,255,0.5), rgba(14,165,233,0.5));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -212,7 +233,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   /* Shimmer skeleton */
   .skeleton {
-    background: linear-gradient(90deg, var(--card) 25%, rgba(255,255,255,0.04) 50%, var(--card) 75%);
+    background: linear-gradient(90deg, var(--navy-3) 25%, rgba(10,37,64,0.04) 50%, var(--navy-3) 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s linear infinite;
     border-radius: var(--r-md);
@@ -228,7 +249,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
   .msg-user {
     @apply rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-relaxed font-medium;
-    background: linear-gradient(135deg, var(--orange), #e05020);
+    background: linear-gradient(135deg, var(--orange), var(--orange-light));
     color: white;
     max-width: 85%;
   }
@@ -240,14 +261,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   /* Feature cards */
   .feature-card {
-    @apply rounded-xl p-5 border transition-all duration-300 cursor-pointer;
+    @apply rounded-xl p-5 transition-all duration-300 cursor-pointer;
     background: var(--card);
-    border-color: var(--card-border);
+    border: 1px solid var(--card-border);
   }
   .feature-card:hover {
     border-color: var(--card-border-h);
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 32px rgba(10,37,64,0.08);
   }
 
   /* XP Badge */
@@ -255,7 +276,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold;
     background: var(--orange-dim);
     color: var(--orange);
-    border: 1px solid rgba(255,107,43,0.2);
+    border: 1px solid rgba(99,91,255,0.20);
   }
 
   /* Stat card */
@@ -268,11 +289,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   /* Progress bar track */
   .progress-track {
     @apply w-full h-2 rounded-full overflow-hidden;
-    background: rgba(255,255,255,0.07);
+    background: rgba(10,37,64,0.08);
   }
   .progress-fill {
     @apply h-full rounded-full transition-all duration-700 ease-out;
-    background: linear-gradient(90deg, var(--orange), #FF8A50);
+    background: linear-gradient(90deg, var(--orange), var(--orange-light));
   }
 
   /* Tab button */
@@ -280,9 +301,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @apply flex flex-col items-center gap-1 py-2.5 px-3 transition-all duration-200 relative;
     color: var(--text-3);
   }
-  .tab-btn.active {
-    color: var(--orange);
-  }
+  .tab-btn.active { color: var(--orange); }
   .tab-btn.active::after {
     content: '';
     position: absolute;
@@ -301,13 +320,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--text-2);
   }
   .nav-item:hover {
-    background: rgba(255,255,255,0.04);
+    background: rgba(10,37,64,0.04);
     color: var(--text-1);
   }
   .nav-item.active {
     background: var(--orange-dim);
     color: var(--orange);
-    border: 1px solid rgba(255,107,43,0.2);
+    border: 1px solid rgba(99,91,255,0.20);
   }
 
   /* Quiz option button */
@@ -322,24 +341,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: var(--card-light);
   }
   .quiz-option.correct {
-    background: rgba(16,185,129,0.08);
+    background: rgba(16,185,129,0.10);
     border-color: #10B981;
-    color: #10B981;
+    color: #047857;
   }
   .quiz-option.wrong {
-    background: rgba(239,68,68,0.08);
+    background: rgba(239,68,68,0.10);
     border-color: #EF4444;
-    color: #EF4444;
+    color: #B91C1C;
   }
   .quiz-option.selected-correct {
-    background: rgba(16,185,129,0.12);
+    background: rgba(16,185,129,0.14);
     border-color: #10B981;
-    box-shadow: 0 0 20px rgba(16,185,129,0.2);
+    box-shadow: 0 0 20px rgba(16,185,129,0.20);
   }
   .quiz-option.selected-wrong {
-    background: rgba(239,68,68,0.12);
+    background: rgba(239,68,68,0.14);
     border-color: #EF4444;
-    box-shadow: 0 0 20px rgba(239,68,68,0.2);
+    box-shadow: 0 0 20px rgba(239,68,68,0.20);
   }
 }
 
@@ -360,9 +379,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .prose-ai p { margin-bottom: 8px; }
 .prose-ai ul { padding-left: 18px; margin-bottom: 8px; }
 .prose-ai li { margin-bottom: 4px; }
-.prose-ai strong { color: white; font-weight: 700; }
-.prose-ai code { font-family: var(--font-mono); background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
-.prose-ai pre { background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; overflow-x: auto; margin: 8px 0; }
+.prose-ai strong { color: var(--text-1); font-weight: 700; }
+.prose-ai code { font-family: var(--font-mono); background: rgba(10,37,64,0.06); padding: 1px 6px; border-radius: 4px; font-size: 12px; color: var(--text-1); }
+.prose-ai pre { background: var(--navy-2); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; overflow-x: auto; margin: 8px 0; }
 .prose-ai pre code { background: none; padding: 0; }
 
 /* ─── Mobile overrides ────────────────────────────────────── */

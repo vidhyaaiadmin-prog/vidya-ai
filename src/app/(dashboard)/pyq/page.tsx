@@ -10,12 +10,12 @@ import toast from 'react-hot-toast';
 import type { QuizQuestion, Difficulty } from '@/types';
 
 const EXAMS = [
-  { id: 'gate_cs',  name: 'GATE CS',       icon: '💻', color: '#7C3AED', desc: 'Computer Science & IT' },
-  { id: 'gate_ec',  name: 'GATE ECE',       icon: '📡', color: '#00D9C0', desc: 'Electronics & Comm Engg' },
-  { id: 'cat',      name: 'CAT',            icon: '📊', color: '#FF6B2B', desc: 'Management entrance' },
+  { id: 'gate_cs',  name: 'GATE CS',       icon: '💻', color: '#0EA5E9', desc: 'Computer Science & IT' },
+  { id: 'gate_ec',  name: 'GATE ECE',       icon: '📡', color: '#10B981', desc: 'Electronics & Comm Engg' },
+  { id: 'cat',      name: 'CAT',            icon: '📊', color: '#635BFF', desc: 'Management entrance' },
   { id: 'upsc',     name: 'UPSC Prelims',   icon: '🏛️', color: '#F59E0B', desc: 'Civil Services' },
-  { id: 'ibps',     name: 'IBPS PO',        icon: '🏦', color: '#10B981', desc: 'Banking & Finance' },
-  { id: 'ssc_cgl',  name: 'SSC CGL',        icon: '📋', color: '#60A5FA', desc: 'Staff Selection' },
+  { id: 'ibps',     name: 'IBPS PO',        icon: '🏦', color: '#22C55E', desc: 'Banking & Finance' },
+  { id: 'ssc_cgl',  name: 'SSC CGL',        icon: '📋', color: '#38BDF8', desc: 'Staff Selection' },
 ];
 
 const LABEL_MAP = ['A', 'B', 'C', 'D'];

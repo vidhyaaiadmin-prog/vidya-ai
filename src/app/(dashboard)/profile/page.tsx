@@ -95,10 +95,10 @@ export default function ProfilePage() {
       {/* Stats grid */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { icon: Zap,      label: 'Total XP',    value: formatXP(progress?.xp ?? 0),                   color: '#FF6B2B' },
+          { icon: Zap,      label: 'Total XP',    value: formatXP(progress?.xp ?? 0),                   color: '#635BFF' },
           { icon: Flame,    label: 'Streak',       value: `${progress?.streak ?? 0}d`,                   color: '#F59E0B' },
-          { icon: Trophy,   label: 'Quizzes',      value: `${progress?.total_quizzes ?? 0}`,             color: '#7C3AED' },
-          { icon: Brain,    label: 'Doubts',        value: `${progress?.total_doubts ?? 0}`,              color: '#00D9C0' },
+          { icon: Trophy,   label: 'Quizzes',      value: `${progress?.total_quizzes ?? 0}`,             color: '#0EA5E9' },
+          { icon: Brain,    label: 'Doubts',        value: `${progress?.total_doubts ?? 0}`,              color: '#10B981' },
         ].map(({ icon: Icon, label, value, color }) => (
           <Card key={label} className="text-center !py-4">
             <Icon className="w-5 h-5 mx-auto mb-2" style={{ color }} />

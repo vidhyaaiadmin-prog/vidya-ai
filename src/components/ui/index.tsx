@@ -15,12 +15,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const BTN_BASE = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none';
 const BTN_VARIANTS = {
-  primary:   'bg-orange text-white hover:bg-orange-light shadow-[0_0_20px_rgba(255,107,43,0.3)] hover:shadow-[0_0_30px_rgba(255,107,43,0.5)]',
-  secondary: 'bg-card-light text-text-primary border border-card-border hover:border-white/20 hover:bg-white/5',
+  primary:   'bg-orange text-white hover:bg-orange-light shadow-[0_0_20px_rgba(99,91,255,0.3)] hover:shadow-[0_0_30px_rgba(99,91,255,0.5)]',
+  secondary: 'bg-card-light text-text-primary border border-card-border hover:border-card-border hover:bg-navy-3',
   outline:   'bg-transparent text-orange border border-orange/40 hover:border-orange hover:bg-orange/5',
-  ghost:     'bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5',
+  ghost:     'bg-transparent text-text-secondary hover:text-text-primary hover:bg-navy-3',
   danger:    'bg-danger text-white hover:bg-red-500',
-  violet:    'bg-violet text-white hover:bg-violet-light shadow-[0_0_20px_rgba(124,58,237,0.3)]',
+  violet:    'bg-violet text-white hover:bg-violet-light shadow-[0_0_20px_rgba(14,165,233,0.3)]',
   teal:      'bg-teal text-navy font-bold hover:opacity-90',
 };
 const BTN_SIZES = {
@@ -64,12 +64,12 @@ export function Card({ children, className, glow = 'none', hover, onClick, paddi
       className={cn(
         'rounded-xl border border-card-border',
         'bg-gradient-to-br from-card to-navy-2',
-        'shadow-[0_4px_24px_rgba(0,0,0,0.4),0_1px_0_rgba(255,255,255,0.04)]',
+        'shadow-[0_1px_2px_rgba(10,37,64,0.04),0_4px_16px_rgba(10,37,64,0.06)]',
         padMap[padding],
-        hover && 'cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)]',
-        glow === 'orange' && 'border-orange/30 shadow-[0_0_30px_rgba(255,107,43,0.15)]',
-        glow === 'violet' && 'border-violet/30 shadow-[0_0_30px_rgba(124,58,237,0.15)]',
-        glow === 'teal'   && 'border-teal/30 shadow-[0_0_30px_rgba(0,217,192,0.15)]',
+        hover && 'cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-card-border hover:shadow-[0_8px_32px_rgba(10,37,64,0.10)]',
+        glow === 'orange' && 'border-orange/30 shadow-[0_0_30px_rgba(99,91,255,0.15)]',
+        glow === 'violet' && 'border-violet/30 shadow-[0_0_30px_rgba(14,165,233,0.15)]',
+        glow === 'teal'   && 'border-teal/30 shadow-[0_0_30px_rgba(16,185,129,0.15)]',
         className,
       )}
     >
@@ -94,7 +94,7 @@ const BADGE_COLORS = {
   mint:   'bg-mint/10 text-mint border-mint/20',
   amber:  'bg-amber/10 text-amber border-amber/20',
   danger: 'bg-danger/10 text-danger border-danger/20',
-  grey:   'bg-white/5 text-text-secondary border-white/10',
+  grey:   'bg-navy-3 text-text-secondary border-card-border',
 };
 
 export function Badge({ children, color = 'orange', size = 'md', className, style }: BadgeProps) {
@@ -227,7 +227,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
         {title && (
           <div className="flex items-center justify-between p-5 border-b border-card-border">
             <h3 className="font-display font-bold text-lg text-text-primary">{title}</h3>
-            <button onClick={onClose} className="text-text-tertiary hover:text-text-primary transition-colors p-1 rounded-lg hover:bg-white/5">
+            <button onClick={onClose} className="text-text-tertiary hover:text-text-primary transition-colors p-1 rounded-lg hover:bg-navy-3">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -334,7 +334,7 @@ export function ChipGroup<T extends string>({ options, value, onChange, color = 
             onClick={() => onChange(opt.value)}
             className={cn(
               'flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200',
-              active ? 'text-white' : 'text-text-secondary bg-card-light border border-card-border hover:border-white/20',
+              active ? 'text-white' : 'text-text-secondary bg-card-light border border-card-border hover:border-card-border',
             )}
             style={active ? { background: color, boxShadow: `0 0 20px ${color}40` } : {}}
           >

@@ -12,14 +12,14 @@ import { xpProgress, formatXP, formatMinutes, cn } from '@/lib/utils';
 
 // ─── Feature Action Cards ──────────────────────────────────
 const ACTIONS = [
-  { href: '/doubt',      emoji: '🔍', label: 'Solve a Doubt',    desc: 'Socratic AI guidance',    color: '#7C3AED', glow: 'violet' as const },
-  { href: '/quiz',       emoji: '✅', label: 'Take a Quiz',       desc: 'AI-generated MCQs',      color: '#FF6B2B', glow: 'orange' as const },
-  { href: '/flashcards', emoji: '🃏', label: 'Review Flashcards', desc: 'Spaced repetition',       color: '#00D9C0', glow: 'teal' as const },
-  { href: '/planner',    emoji: '📅', label: 'Study Plan',        desc: 'Exam-ready schedule',     color: '#10B981', glow: 'none' as const },
+  { href: '/doubt',      emoji: '🔍', label: 'Solve a Doubt',    desc: 'Socratic AI guidance',    color: '#0EA5E9', glow: 'violet' as const },
+  { href: '/quiz',       emoji: '✅', label: 'Take a Quiz',       desc: 'AI-generated MCQs',      color: '#635BFF', glow: 'orange' as const },
+  { href: '/flashcards', emoji: '🃏', label: 'Review Flashcards', desc: 'Spaced repetition',       color: '#10B981', glow: 'teal' as const },
+  { href: '/planner',    emoji: '📅', label: 'Study Plan',        desc: 'Exam-ready schedule',     color: '#22C55E', glow: 'none' as const },
   { href: '/career',     emoji: '🗺️', label: 'Career GPS',        desc: 'Roadmap to your goal',   color: '#F59E0B', glow: 'none' as const },
   { href: '/interview',  emoji: '🎤', label: 'Mock Interview',    desc: 'AI practice rounds',     color: '#EF4444', glow: 'none' as const },
-  { href: '/pyq',        emoji: '📝', label: 'PYQ Mode',          desc: 'GATE, CAT, UPSC papers', color: '#9B5FF7', glow: 'none' as const },
-  { href: '/analytics',  emoji: '📊', label: 'My Analytics',      desc: 'Performance insights',   color: '#60A5FA', glow: 'none' as const },
+  { href: '/pyq',        emoji: '📝', label: 'PYQ Mode',          desc: 'GATE, CAT, UPSC papers', color: '#8780FF', glow: 'none' as const },
+  { href: '/analytics',  emoji: '📊', label: 'My Analytics',      desc: 'Performance insights',   color: '#38BDF8', glow: 'none' as const },
 ];
 
 // ─── Tip of the day ────────────────────────────────────────
@@ -160,17 +160,17 @@ export default function HomePage() {
         transition={{ duration: 0.4 }}
         className="relative overflow-hidden rounded-2xl p-6"
         style={{
-          background: 'linear-gradient(135deg, #0E1230 0%, #1A0E30 60%, #0A1820 100%)',
-          border: '1px solid rgba(255,255,255,0.07)',
-          boxShadow: '0 0 60px rgba(255,107,43,0.08), 0 4px 24px rgba(0,0,0,0.4)',
+          background: 'linear-gradient(135deg, #F8FAFF 0%, #FFFFFF 60%, #F3F7FF 100%)',
+          border: '1px solid rgba(10,37,64,0.08)',
+          boxShadow: '0 1px 2px rgba(10,37,64,0.04), 0 8px 32px rgba(10,37,64,0.06)',
         }}
       >
         {/* BG glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20"
-            style={{ background: 'radial-gradient(circle, #FF6B2B, transparent)', filter: 'blur(60px)', transform: 'translate(30%, -30%)' }} />
+            style={{ background: 'radial-gradient(circle, #635BFF, transparent)', filter: 'blur(60px)', transform: 'translate(30%, -30%)' }} />
           <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10"
-            style={{ background: 'radial-gradient(circle, #7C3AED, transparent)', filter: 'blur(40px)', transform: 'translate(-20%, 30%)' }} />
+            style={{ background: 'radial-gradient(circle, #0EA5E9, transparent)', filter: 'blur(40px)', transform: 'translate(-20%, 30%)' }} />
         </div>
 
         <div className="relative z-10">
@@ -189,7 +189,7 @@ export default function HomePage() {
                 <span className="font-bold text-orange"><AnimatedNumber value={progress!.xp} format={formatXP} /> XP</span>
               </div>
               <ProgressBar value={prog.pct} height={7}
-                color="linear-gradient(90deg, #FF6B2B, #FF8A50)" />
+                color="linear-gradient(90deg, #635BFF, #8780FF)" />
               <div className="flex justify-between text-[10px] text-text-tertiary">
                 <span>{prog.current} / {prog.needed} XP to Level {prog.level + 1}</span>
                 <span>{prog.pct}%</span>
@@ -206,10 +206,10 @@ export default function HomePage() {
         transition={{ duration: 0.4, delay: 0.1 }}
         className="grid grid-cols-4 gap-2.5"
       >
-        <StatCard icon={Zap}       label="Total XP"    value={<AnimatedNumber value={progress?.xp ?? 0} format={formatXP} />}   color="#FF6B2B" />
+        <StatCard icon={Zap}       label="Total XP"    value={<AnimatedNumber value={progress?.xp ?? 0} format={formatXP} />}   color="#635BFF" />
         <StatCard icon={Flame}     label="Streak"      value={<AnimatedNumber value={progress?.streak ?? 0} format={n => `${n}d`} />}    color="#F59E0B" pulse={(progress?.streak ?? 0) > 0} />
-        <StatCard icon={Trophy}    label="Quizzes"     value={<AnimatedNumber value={progress?.total_quizzes ?? 0} />} color="#7C3AED" sub="completed" />
-        <StatCard icon={Brain}     label="Doubts"      value={<AnimatedNumber value={progress?.total_doubts ?? 0} />} color="#00D9C0" sub="solved" />
+        <StatCard icon={Trophy}    label="Quizzes"     value={<AnimatedNumber value={progress?.total_quizzes ?? 0} />} color="#0EA5E9" sub="completed" />
+        <StatCard icon={Brain}     label="Doubts"      value={<AnimatedNumber value={progress?.total_doubts ?? 0} />} color="#10B981" sub="solved" />
       </motion.div>
 
       {/* ── Today's Study ── */}
