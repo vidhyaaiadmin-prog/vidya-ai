@@ -36,7 +36,7 @@ function applySecurityHeaders(res: NextResponse): NextResponse {
       "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
       "font-src 'self' fonts.gstatic.com",
       "img-src 'self' data: blob: *.supabase.co",
-      "connect-src 'self' *.supabase.co api.anthropic.com generativelanguage.googleapis.com graph.facebook.com",
+      "connect-src 'self' *.supabase.co generativelanguage.googleapis.com",
       "frame-ancestors 'none'",
       "form-action 'self'",
       "base-uri 'self'",

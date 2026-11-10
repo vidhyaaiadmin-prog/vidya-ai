@@ -14,8 +14,8 @@ const COMPLIANCE_PACK = `VIDYA AI — INSTITUTIONAL COMPLIANCE SUMMARY
    - All student data is stored in Supabase (Postgres) with row-level security enforced per user.
    - Access to any student's data requires their own authenticated session, or institution-admin
      access scoped strictly to that institution's own students.
-   - No student data is shared across institutions or with third parties beyond the AI providers
-     (Google Gemini, Anthropic Claude) strictly necessary to generate a response.
+   - No student data is shared across institutions or with third parties beyond the AI provider
+     (Google Gemini) strictly necessary to generate a response.
 
 2. DATA PORTABILITY
    - Institutions may export their full student dataset at any time via the Admin Console —

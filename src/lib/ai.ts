@@ -1,17 +1,8 @@
-import Anthropic from '@anthropic-ai/sdk';
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, type Schema } from '@google/generative-ai';
 import { createAdminClient } from './supabase';
 
-// ─── Clients (initialized lazily) ─────────────────────────
-let anthropic: Anthropic | null = null;
+// ─── Client (initialized lazily) ──────────────────────────
 let gemini: GoogleGenerativeAI | null = null;
-
-function getAnthropic(): Anthropic {
-  if (!anthropic) {
-    anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
-  }
-  return anthropic;
-}
 
 function getGemini(): GoogleGenerativeAI {
   if (!gemini) {
@@ -152,30 +143,6 @@ export async function callGeminiChat(
   return text;
 }
 
-// ─── Gemini Pro (complex tasks - batch when possible) ─────
-export async function callGeminiPro(
-  prompt: string,
-  systemInstruction: string,
-  userId: string,
-  feature: string,
-): Promise<string> {
-  await checkTokenCap(userId);
-
-  const model = getGemini().getGenerativeModel({
-    model: 'gemini-flash-latest',   // upgrade to pro when available
-    systemInstruction,
-  });
-
-  const result = await model.generateContent(prompt);
-  const text = result.response.text();
-
-  const inTokens = Math.ceil(prompt.length / 4);
-  const outTokens = Math.ceil(text.length / 4);
-  await logUsage(userId, feature, 'gemini-pro', inTokens, outTokens);
-
-  return text;
-}
-
 // ─── Gemini Vision (Vault Mode proctoring snapshots) ──────
 export async function callGeminiVision(
   imageBase64: string,
@@ -199,32 +166,6 @@ export async function callGeminiVision(
   return text;
 }
 
-// ─── Claude Sonnet (Socratic tutor - most nuanced) ────────
-export async function callClaude(
-  messages: Array<{ role: 'user' | 'assistant'; content: string }>,
-  system: string,
-  userId: string,
-  feature: string,
-  maxTokens = 800,
-): Promise<string> {
-  await checkTokenCap(userId);
-
-  const client = getAnthropic();
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: maxTokens,
-    system,
-    messages,
-  });
-
-  const text = response.content[0].type === 'text' ? response.content[0].text : '';
-  const inTokens = response.usage.input_tokens;
-  const outTokens = response.usage.output_tokens;
-  await logUsage(userId, feature, 'claude-sonnet', inTokens, outTokens);
-
-  return text;
-}
-
 // ─── JSON extraction helper ────────────────────────────────
 export function extractJSON<T>(text: string): T | null {
   // Object pattern first: for a response shaped {"key": [...]}, the array
@@ -243,28 +184,3 @@ export function extractJSON<T>(text: string): T | null {
   return null;
 }
 
-// ─── WhatsApp helper ───────────────────────────────────────
-export async function sendWhatsApp(to: string, body: string): Promise<boolean> {
-  const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-  const token = process.env.WHATSAPP_ACCESS_TOKEN;
-  if (!phoneId || !token) return false;
-
-  try {
-    const res = await fetch(
-      `https://graph.facebook.com/v20.0/${phoneId}/messages`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          messaging_product: 'whatsapp',
-          to,
-          type: 'text',
-          text: { body },
-        }),
-      },
-    );
-    return res.ok;
-  } catch {
-    return false;
-  }
-}
